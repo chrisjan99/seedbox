@@ -1,0 +1,23 @@
+directory = /share/rtorrent/complete
+session = /share/rtorrent/sessions
+
+execute2 = {sh,-c,/usr/bin/php /share/www/rt/php/initplugins.php root &}
+
+schedule = watch_dir,5,5,"load.start=/share/rtorrent/watch/*.torrent, d.directory.set=/share/rtorrent/incoming"
+schedule = untied_directory,5,5,stop_untied=
+schedule = untied_directory,5,5,close_untied=
+schedule = untied_directory,5,5,remove_untied=
+schedule = tied_directory,5,5,start_tied=
+schedule = low_diskspace,10,30,close_low_diskspace=100M
+
+upload_rate = 0
+download_rate = 0
+port_range = 34500-34550
+port_random = no
+encryption = allow_incoming,try_outgoing,enable_retry
+dht = auto
+check_hash = no
+
+encoding_list = UTF-8
+scgi_port = 127.0.0.1:5000
+ip = 0.0.0.0
