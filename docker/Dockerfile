@@ -60,6 +60,11 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 COPY start.sh /start.sh
-EXPOSE 80 443 34500-34550
+COPY update-tracker.py /usr/lib/python2.7/dist-packages/deluge/ui/console/commands/update-tracker.py
+RUN sed '876 aextension=geoip.so' -i /etc/php/7.0/fpm/php.ini
+RUN sed -i 's/upload_max_filesize\ =\ 2M/upload_max_filesize\ =\ 128M/g' /etc/php/7.0/fpm/php.ini
+RUN sed -i 's/max_file_uploads\ =\ 20/max_file_uploads\ =\ 2000/g' /etc/php/7.0/fpm/php.ini
+RUN sed -i 's/post_max_size\ =\ 8M/post_max_size\ =\ 128M/g' /etc/php/7.0/fpm/php.ini
+EXPOSE 80 443 58080 58112 34500-34550 36880-36900 58840-58860 58999
 STOPSIGNAL SIGTERM
 ENTRYPOINT ["/start.sh"]
